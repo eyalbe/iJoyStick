@@ -4,6 +4,10 @@ Feeder::Feeder(){
 	id=1;
 	iInterface=1;
 	ContinuousPOV=FALSE;
+	key.type = INPUT_KEYBOARD;
+	key.ki.wScan = 0;
+	key.ki.time = 0;
+	key.ki.dwExtraInfo = 0;
 }
 
 int Feeder::get_device(){
@@ -88,18 +92,45 @@ void Feeder::feed(int* data_array){
 	{
 	case(1):
 			SetAxis(data_array[1], iInterface, HID_USAGE_X);
+			//printf("feeding x with value %d.\n", data_array[1]);
 	break;
 	case(2):
 			SetAxis(data_array[1], iInterface, HID_USAGE_Y);
+			//printf("feeding y with value %d.\n", data_array[1]);
 	break;
 	case(3):
-			if (data_array[1] == 0)
+			if (data_array[1] == 0){
 				SetBtn(FALSE, iInterface, data_array[2]);
-			else
+				//printf("release button no %d.\n", data_array[2]);
+			}
+			else{
 				SetBtn(TRUE, iInterface, data_array[2]);
+				//printf("press button no %d.\n", data_array[2]);
+			}
 	break;
 	case(4):
 		reset();
+		//printf("reset all controls.\n", data_array[2]);
+	break;
+	case(5):
+		if(data_array[2] == 1)
+			key.ki.wVk = VK_UP; // virtual-key code for the "up" key
+		if(data_array[2] == 2)
+			key.ki.wVk = VK_DOWN; // virtual-key code for the "down" key
+		if(data_array[2] == 3)
+			key.ki.wVk = VK_RIGHT; // virtual-key code for the "right" key
+		if(data_array[2] == 4)
+			key.ki.wVk = VK_LEFT; // virtual-key code for the "left" key
+		if(data_array[2] == 5)
+			key.ki.wVk = VK_ESCAPE; // virtual-key code for the "esc" key
+		if(data_array[2] == 6)
+			key.ki.wVk = VK_EXECUTE; // virtual-key code for the "enter" key
+		if(data_array[1] == 1)
+			key.ki.dwFlags = 0; // 0 for key press
+		else
+			key.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+		SendInput(1, &key, sizeof(INPUT));
+		//printf("keyboard press.\n");
 	break;
 	}
 		//SetAxis(Z, iInterface, HID_USAGE_Z);

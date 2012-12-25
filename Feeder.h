@@ -25,6 +25,7 @@ private:
 	BYTE id;										// ID of the target vjoy device (Default is 1)
 	UINT iInterface;								// Default target vJoy device
 	BOOL ContinuousPOV;								// Continuous POV hat (or 4-direction POV Hat)
+	INPUT key;
 
 };
 
