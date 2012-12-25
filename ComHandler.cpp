@@ -51,8 +51,6 @@ int ComHandler::start_listen(Feeder* f){
 				break;
 			}
 		}
-		//user_input[count-1] = '\0';
-		//printf("%s\n", user_input);
 		make_data(user_input, data_array);
 		f->feed(data_array);
 	}
@@ -83,6 +81,7 @@ void ComHandler::make_data(char* str, int* arr){
 	case('5'):
 		arr[0] = 5;
 		arr[1] = str[1]-48;
+		arr[2] = str[2]-48;
 	break;
 	}
 }
