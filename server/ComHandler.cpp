@@ -1,4 +1,3 @@
-
 #include "ComHandler.h"
 
 ComHandler::ComHandler(){
@@ -16,7 +15,7 @@ ComHandler::ComHandler(){
 		return;
 	}
 	srv.sin_family = AF_INET; /* use the Internet addr family */
-	srv.sin_port = htons(6000); /* bind socket ‘fd’ to port 5555*/
+	srv.sin_port = htons(6000); /* bind socket ï¿½fdï¿½ to port 5555*/
 
 	/* bind: a client may connect to any of my addresses */
 	srv.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -51,39 +50,9 @@ int ComHandler::start_listen(Feeder* f){
 				break;
 			}
 		}
-		make_data(user_input, data_array);
-		f->feed(data_array);
+		f->feed(user_input);
 	}
 	return 0;
-}
-
-void ComHandler::make_data(char* str, int* arr){
-	switch (str[0])
-	{
-	case('1'):
-		arr[0] = 1;
-		arr[1] = atoi(str+1);
-		//if (str[1] == '-')
-			//arr[1] *= -1;
-	break;
-	case('2'):
-		arr[0] = 2;
-		arr[1] = atoi(str+1);
-	break;
-	case('3'):
-		arr[0] = 3;
-		arr[1] = str[1]-48;
-		arr[2] = str[2]-48;
-	break;
-	case('4'):
-		arr[0] = 4;
-	break;
-	case('5'):
-		arr[0] = 5;
-		arr[1] = str[1]-48;
-		arr[2] = str[2]-48;
-	break;
-	}
 }
 
 void ComHandler::closeSoc(){
