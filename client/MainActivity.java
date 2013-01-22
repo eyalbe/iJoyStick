@@ -109,83 +109,17 @@ public class MainActivity extends Activity implements SensorEventListener,
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		if(v.getId() == R.id.button1){
+		if(currentMenu == 1){
 			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("311");
-			else
-				com.send("301");
-			return false;
+				buttonsCom.send("31" + v.getTag());
+			if(event.getAction() == MotionEvent.ACTION_UP)
+				buttonsCom.send("30" + v.getTag());
 		}
-		if(v.getId() == R.id.button2){
+		if(currentMenu == 2){
 			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("312");
-			else
-				com.send("302");
-			return false;
-		}
-		if(v.getId() == R.id.button3){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("313");
-			else
-				com.send("303");
-			return false;
-		}
-		if(v.getId() == R.id.button4){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("314");
-			else
-				com.send("304");
-			return false;
-		}
-		if(v.getId() == R.id.pedal1){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("315");
-			else
-				com.send("305");
-			return false;
-		}
-		if(v.getId() == R.id.pedal2){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("316");
-			else
-				com.send("306");
-			return false;
-		}
-		if(v.getId() == R.id.up){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("511");
-			else
-				com.send("501");
-		}
-		if(v.getId() == R.id.down){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("512");
-			else
-				com.send("502");
-		}
-		if(v.getId() == R.id.right){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("513");
-			else
-				com.send("503");
-		}
-		if(v.getId() == R.id.left){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("514");
-			else
-				com.send("504");
-		}
-		if(v.getId() == R.id.esc){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("515");
-			else
-				com.send("505");
-		}
-		if(v.getId() == R.id.ent){
-			if(event.getAction() == MotionEvent.ACTION_DOWN)
-				com.send("516");
-			else
-				com.send("506");
+				buttonsCom.send("51" + v.getTag());
+			if(event.getAction() == MotionEvent.ACTION_UP)
+				buttonsCom.send("50" + v.getTag());
 		}
 		return false;
 	}
