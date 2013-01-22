@@ -80,62 +80,62 @@ int Feeder::get_device(){
 	return 0;
 }
 
-void Feeder::feed(int* data_array){
+void Feeder::feed(char* data_str){
 	/*
-		data_array[0] = action: setX, setY, Button...
-		data_array[1] = value:	if setX/setY than set value.
-								if Buttton then 1=push, 0=release.
-		data_array[2] = b.n:	the Button number.
+	data_array[0] = action: setX, setY, Button...
+	data_array[1] = value: if setX/setY than set value.
+	if Buttton then 1=push, 0=release.
+	data_array[2] = b.n: the Button number.
 	*/
 
-	switch (data_array[0])
+	switch (data_str[0])
 	{
-	case(1):
-			SetAxis(data_array[1], iInterface, HID_USAGE_X);
-			//printf("feeding x with value %d.\n", data_array[1]);
+	case('1'):
+		SetAxis(atoi(data_str+1), iInterface, HID_USAGE_X);
+		//printf("feeding x with value %d.\n", atoi(data_str+1));
 	break;
-	case(2):
-			SetAxis(data_array[1], iInterface, HID_USAGE_Y);
-			//printf("feeding y with value %d.\n", data_array[1]);
+	case('2'):
+		SetAxis(atoi(data_str+1), iInterface, HID_USAGE_Y);
+		//printf("feeding y with value %d.\n", data_array[1]);
 	break;
-	case(3):
-			if (data_array[1] == 0){
-				SetBtn(FALSE, iInterface, data_array[2]);
-				//printf("release button no %d.\n", data_array[2]);
-			}
-			else{
-				SetBtn(TRUE, iInterface, data_array[2]);
-				//printf("press button no %d.\n", data_array[2]);
-			}
+	case('3'):
+		if (data_str[1] == '0'){
+			SetBtn(FALSE, iInterface, data_str[2]-48);
+			//printf("release button no %d.\n", data_str[2]-48);
+		}
+		else{
+			SetBtn(TRUE, iInterface, data_str[2]-48);
+			//printf("press button no %d.\n", data_str[2]-48);
+		}
 	break;
-	case(4):
+	case('4'):
 		reset();
-		//printf("reset all controls.\n", data_array[2]);
+		//printf("reset all controls.\n");
 	break;
-	case(5):
-		if(data_array[2] == 1)
+	case('5'):
+		if(data_str[2] == '1')
 			key.ki.wVk = VK_UP; // virtual-key code for the "up" key
-		if(data_array[2] == 2)
+		if(data_str[2] == '2')
 			key.ki.wVk = VK_DOWN; // virtual-key code for the "down" key
-		if(data_array[2] == 3)
+		if(data_str[2] == '3')
 			key.ki.wVk = VK_RIGHT; // virtual-key code for the "right" key
-		if(data_array[2] == 4)
+		if(data_str[2] == '4')
 			key.ki.wVk = VK_LEFT; // virtual-key code for the "left" key
-		if(data_array[2] == 5)
+		if(data_str[2] == '5')
 			key.ki.wVk = VK_ESCAPE; // virtual-key code for the "esc" key
-		if(data_array[2] == 6)
-			key.ki.wVk = VK_EXECUTE; // virtual-key code for the "enter" key
-		if(data_array[1] == 1)
+		if(data_str[2] == '6')
+			key.ki.wVk = VK_RETURN; // virtual-key code for the "enter" key
+		if(data_str[1] == '1'){
 			key.ki.dwFlags = 0; // 0 for key press
-		else
+			//printf("keyboard press.\n");
+		}
+		else{
 			key.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+			//printf("keyboard realese.\n");
+		}
 		SendInput(1, &key, sizeof(INPUT));
-		//printf("keyboard press.\n");
 	break;
 	}
-		//SetAxis(Z, iInterface, HID_USAGE_Z);
-		//SetAxis(XR, iInterface, HID_USAGE_RX);
-		//SetAxis(ZR, iInterface, HID_USAGE_RZ);
 }
 
 void Feeder::reset(){
